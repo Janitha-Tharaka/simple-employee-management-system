@@ -22,4 +22,16 @@ class EmployeesController extends Controller
         }
     }
 
+    /* Get specific employee details */
+
+    public function getEmployeeDetails(Request $request){
+        try{
+            $employeeData = Employee::findOrFail($request->get('employeeId'));
+            return response()->json($employeeData);
+        }
+        catch(Exception $e){
+            Log::error($e);
+        }
+    }
+
 }
