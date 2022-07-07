@@ -1,4 +1,7 @@
+import axios from 'axios';
 import React, { Component } from 'react';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 class UpdateModal extends Component {
 
@@ -55,8 +58,19 @@ class UpdateModal extends Component {
         return employeeUpdate;
     }
 
+    //Updating employee data
     updateEmployeeData = () => {
+        axios.post('/update/employee/data', {
+            employeeId: this.props.modalId,
+            employeeName: this.state.employeeName,
+            employeeSalary: this.state.employeeSalary,
+        }).then(() => {
+            toast.success("Employee Updated Successfully");
 
+            setTimeout(() => {
+                location.reload();
+            }, 2000)
+        })
     }
 
     render() {
@@ -72,8 +86,8 @@ class UpdateModal extends Component {
                             <form className="form">
                                 <div className="form-group">
                                     <input type="text"
-                                        name="employeeName"
                                         id="employeeName"
+                                        className='form-control mb-3'
                                         value={this.state.employeeName ?? ""}
                                         onChange={this.inputEmployeeName}
                                     />
@@ -81,8 +95,8 @@ class UpdateModal extends Component {
 
                                 <div className="form-group">
                                     <input type="text"
-                                        name="employeeSalary"
                                         id="employeeSalary"
+                                        className='form-control mb-3'
                                         value={this.state.employeeSalary ?? ""}
                                         onChange={this.inputEmployeeSalary}
                                     />

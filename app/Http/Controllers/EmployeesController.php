@@ -34,4 +34,62 @@ class EmployeesController extends Controller
         }
     }
 
+    /* Updating Data */
+
+    public function updateEmployeeData(Request $request){
+        try{
+            // By doing this, can get the values to the network field to check
+            // dd($request->all());
+            $employeeId     = $request->get('employeeId');
+            $employeeName   = $request->get('employeeName');
+            $employeeSalary = $request->get('employeeSalary');
+
+            Employee::where('id',$employeeId)->update([
+                'employee_name' => $employeeName,
+                'salary' => $employeeSalary
+            ]);
+
+            return response()->json([
+                'employee_name' => $employeeName,
+                'Salary' => $employeeSalary
+            ]);
+        }
+        catch(Exception $e){
+            Log::error($e);
+        }
+    }
+
+    //Delete Employee
+
+    public function destroy(Employee $employee){
+        try{
+            $employee->delete();
+        }
+        catch(Exception $e){
+            Log::error($e);
+        }
+    }
+
+    //Inserting New Employee
+
+    public function store(Request $request){
+        try{
+            $employeeName = $request->get('employeeName');
+            $employeeSalary = $request->get('employeeSalary');
+
+            Employee::create([
+                'employee_name' => $employeeName,
+                'salary'        => $employeeSalary
+            ]);
+
+            return response()->json([
+                'employee_name' => $employeeName,
+                'Salary' => $employeeSalary
+            ]);
+        }
+        catch(Exception $e){
+            Log::error($e);
+        }
+    }
+
 }
